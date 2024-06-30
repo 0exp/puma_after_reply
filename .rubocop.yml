@@ -1,0 +1,16 @@
+inherit_gem:
+  armitage-rubocop:
+    - lib/rubocop.general.yml
+    - lib/rubocop.rake.yml
+    - lib/rubocop.rspec.yml
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  Include:
+    - lib/**/*.rb
+    - spec/**/*.rb
+    - Gemfile
+    - Rakefile
+    - puma_after_reply.gemspec
+    - bin/console
