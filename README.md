@@ -1,6 +1,6 @@
 # puma_after_reply ![build](https://github.com/0exp/puma_after_reply/actions/workflows/build.yml/badge.svg??branch=master)
 
-Puma's "rack.after_reply" integration for your Rack-applications. Provides #call-able reply
+Puma's `"rack.after_reply"` integration for your Rack-applications. Provides #call-able reply
 abstraction and configurable threaded invocation flow with before/on_error/after hooks for each added reply.
 
 ---
@@ -62,7 +62,7 @@ require 'puma_after_reply'
 
 #### Algorithm
 
-- every Puma worker gets own reply collector;
+- every Puma's worker gets own reply collector;
 - during the Puma's request your logic adds replies to the worker's reply collector;
 - after processing the request, Puma's worker returns a response to the browser;
 - then Puma's worker launches accumulated replies:
@@ -96,10 +96,16 @@ PumaAfterReply.configure do |config|
   config.run_anyway = false # expects: <Boolean>
   config.thread_pool_size = 10 # expects: <Integer>
 end
+
+# get configs as a hash:
+PumaAfterReply.cofnig.to_h
+
+# get configs directly:
+PumaAfterRepy.config.fail_on_error # and etc;
 ```
 
 ```ruby
-# and register the middleware (Rails example)
+# (IMPORTANT): register the middleware (Rails example)
 Rails.configuration.middleware.use(PumaAfterReply::Middleware)
 ```
 
