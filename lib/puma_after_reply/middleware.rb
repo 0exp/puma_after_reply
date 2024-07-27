@@ -22,11 +22,13 @@ class PumaAfterReply::Middleware
   # @since 0.1.0
   def call(env)
     @app.call(env).tap do
+      # :nocov:
       if env.key?('rack.after_reply')
         env['rack.after_reply'] << proc { PumaAfterReply.call }
       elsif PumaAfterReply::Config.run_anyway
         PumaAfterReply.call # NOTE: may be usefull for/from-inside test environments
       end
+      # :nocov:
     end
   end
 end
