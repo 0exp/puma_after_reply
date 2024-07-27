@@ -62,22 +62,21 @@ require 'puma_after_reply'
 
 #### Algorithm
 
-<sup>\[[back to top](#usage)\]</sup>
-
 - every Puma worker gets own reply collector;
 - during the Puma's request your logic adds replies to the worker's reply collector;
-- after processing the request Puma's worker returns a response to the browser;
+- after processing the request, Puma's worker returns a response to the browser;
 - then Puma's worker launches accumulated replies:
   - threaded replies are launched in separated threads;
   - non-threaded replies are launched sequentially;
-- after processing all replies the worker's reply collector is cleared;
+- after processing all replies, the worker's reply collector is cleared;
 
-Each separated reply is launched according to the following flow:
+Each separated reply is launched according to the following invocation flow:
 - **before_reply** hook (`config.before_reply`);
-- reply invocation;
-- **log_error** hook (`config.log_error`);
-- **on_error** hook (`config.on_error`);
-- **raise_on_error** fail check (`config.fail_on_error`)
+- reply invocation (`reply.call`);
+- if `reply.call` failed with an error:
+  - **log_error** hook (`config.log_error`);
+  - **on_error** hook (`config.on_error`);
+  - **raise_on_error** fail check (`config.fail_on_error`)
 - (ensure): **after_reply** hook (`config.after_reply`);
 
 ---
