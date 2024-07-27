@@ -60,38 +60,42 @@ class PumaAfterReply::ReplyCollector
     inline_replies.size + threaded_replies.size
   end
 
+  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def threaded__each(&)
-    threaded_replies.each(&)
+  def threaded__each(&block)
+    threaded_replies.each(&block)
   end
 
+  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def threaded__each_and_flush(&)
-    threaded_replies.each(&)
+  def threaded__each_and_flush(&block)
+    threaded_replies.each(&block)
   ensure
     threaded_replies.clear
   end
 
+  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def inline__each(&)
-    inline_replies.each(&)
+  def inline__each(&block)
+    inline_replies.each(&block)
   end
 
+  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def inline__each_and_flush(&)
-    inline_replies.each(&)
+  def inline__each_and_flush(&block)
+    inline_replies.each(&block)
   ensure
     inline_replies.clear
   end

@@ -67,7 +67,7 @@ module PumaAfterReply::Config
       before_reply:,
       after_reply:,
       run_anyway:,
-      thread_pool_size:,
+      thread_pool_size:
     }
     # rubocop:enable Style/EndlessMethod
 
