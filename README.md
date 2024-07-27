@@ -91,8 +91,8 @@ PumaAfterReply.configure do |config|
   config.fail_on_error = false # expects: <Boolean>
   config.log_error = nil # expects: <nil,#call,Proc> (receives: error object)
   config.on_error = nil # expects: <nil,#call,Proc> (receives: error object)
-  config.before_reply = nil # expects: <nil,#call,Proc>
-  config.after_reply = nil # expects: <nil,#call,Proc>
+  config.before_reply = nil # expects: <nil,#call,Proc> (receives: nothing)
+  config.after_reply = nil # expects: <nil,#call,Proc> (receives: nothing)
   config.run_anyway = false # expects: <Boolean>
   config.thread_pool_size = 10 # expects: <Integer>
 end
