@@ -1,4 +1,4 @@
-# puma_after_reply ![build](https://github.com/0exp/puma_after_reply/actions/workflows/build.yml/badge.svg??branch=master)
+# puma_after_reply &middot; ![Gem Version](https://img.shields.io/gem/v/puma_after_reply) ![build](https://github.com/0exp/puma_after_reply/actions/workflows/build.yml/badge.svg??branch=master)
 
 Puma's `"rack.after_reply"` integration for your Rack-applications. Provides #call-able reply
 abstraction and configurable non-threaded/threaded invocation flow with before/on_error/after hooks for each added reply.
