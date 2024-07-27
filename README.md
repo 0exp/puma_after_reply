@@ -136,7 +136,7 @@ PumaAfterReply.add_reply(threaded: true) { your_code }
   - condition can be represented as callable object (`#call`/`Proc`);
 
 ```ruby
-# - with a boolean value:
+# with a boolean value:
 PumaAfterReply.cond_reply(!Rails.env.test?) { your_code }
 ```
 
@@ -144,6 +144,11 @@ PumaAfterReply.cond_reply(!Rails.env.test?) { your_code }
 # with a callabale value:
 is_puma_request = proc { check_that_we_are_inside_a_request }
 PumaAfterReply.cond_reply(is_puma_request) { your_code }
+```
+
+```ruby
+# add threaded reply
+PumaAfterReply.cond_reply(some_condition, threaded: true) { your_code }
 ```
 
 ---
