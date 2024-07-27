@@ -14,6 +14,7 @@ abstraction and configurable threaded invocation flow with before/on_error/after
   - [Configuration](#configuration)
   - [Adding replies](#adding-replies-add_replycond_reply)
   - [Some debugging methods](#some-debigging-methods)
+  - [Test environments](#test-environments-and-other-rack-apps)
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
@@ -57,6 +58,7 @@ require 'puma_after_reply'
 - [Configuration](#configuration)
 - [Adding replies](#adding-replies-add_replycond_reply)
 - [Some debugging methods](#some-debigging-methods)
+- [Test environments](#test-environments-and-other-rack-apps)
 
 ---
 
@@ -173,6 +175,16 @@ PumaAfterReply.threaded_replies # all added threaded replies
 # manual replies running:
 PumaAfterReply.call
 ```
+
+---
+
+#### Test environments (and other Rack apps)
+
+<sup>\[[back to top](#table-of-contents)\]</sup>
+
+In some cases and Rack applications you can have no `"rack.after_reply"` key in your Rack env
+(request environments in your tests, for example). For this cases you can use `config.run_anyway = true`:
+on each of your rack request all accumulated replies will be processed and cleared in the same way as for Puma.
 
 ---
 
