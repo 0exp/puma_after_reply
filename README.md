@@ -10,6 +10,10 @@ abstraction and configurable threaded invocation flow with before/on_error/after
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Algorithm](#algorithm)
+  - [Configuration](#configuration)
+  - [Adding replies](#adding-replies-add_replycond_reply)
+  - [Some debugging methods](#some-debigging-methods)
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
@@ -45,24 +49,21 @@ require 'puma_after_reply'
 
 ---
 
-### Configuration
-
-<sup>\[[back to top](#table-of-contents)\]</sup>
-
----
-
 ### Usage
 
 <sup>\[[back to top](#table-of-contents)\]</sup>
 
 - [Algorithm](#algorithm)
 - [Configuration](#configuration)
-- [Adding replies]
+- [Adding replies](#adding-replies-add_replycond_reply)
 - [Some debugging methods](#some-debigging-methods)
 
 ---
 
-#### Algorithm**
+#### Algorithm
+
+<sup>\[[back to top](#usage)\]</sup>
+
 - every Puma worker gets own reply collector;
 - during the Puma's request your logic adds replies to the worker's reply collector;
 - after processing the request Puma's worker returns a response to the browser;
@@ -82,6 +83,8 @@ Each separated reply is launched according to the following flow:
 ---
 
 #### Configuration
+
+<sup>\[[back to top](#usage)\]</sup>
 
 ```ruby
 PumaAfterReply.configure do |config|
@@ -104,6 +107,8 @@ Rails.configuration.middleware.use(PumaAfterReply::Middleware)
 ---
 
 #### Adding replies (`add_reply`/`cond_reply`)
+
+<sup>\[[back to top](#usage)\]</sup>
 
 - non-threaded way (this reply will be processed sequentially):
 
@@ -139,6 +144,8 @@ PumaAfterReply.cond_reply(is_puma_request) { your_code }
 ---
 
 #### Some debigging methods
+
+<sup>\[[back to top](#usage)\]</sup>
 
 ```ruby
 # the count of the added replies:
