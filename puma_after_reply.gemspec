@@ -39,4 +39,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13'
   spec.add_development_dependency 'rspec', '~> 3.13'
   spec.add_development_dependency 'simplecov', '~> 0.22'
+  spec.add_development_dependency 'rack', '~> 3.1'
+  spec.add_development_dependency 'rack-test', '~> 2.1'
 end

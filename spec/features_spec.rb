@@ -238,4 +238,50 @@ RSpec.describe 'PumaAfterReply features' do
       end
     end
   end
+
+  describe 'middleware' do
+    before do
+      PumaAfterReply.clear
+      PumaAfterReply.config.__reset!
+      PumaAfterReply.configure { |config| config.run_anyway = true }
+    end
+
+    after do
+      PumaAfterReply.clear
+      PumaAfterReply.config.__reset!
+    end
+
+    let!(:app) { build_minimal_rack_app }
+
+    specify '(full flow) reply ivnocation wokrs as expected' do
+      replies = []
+      before_replies = []
+      after_replies = []
+      on_error_results = []
+      log_error_results = []
+
+      PumaAfterReply.configure do |config|
+        config.before_reply = proc { before_replies << :before }
+        config.after_reply = proc { after_replies << :after }
+        config.on_error = proc { on_error_results << :on_error }
+        config.log_error = proc { log_error_results << :log_error }
+      end
+
+      PumaAfterReply.add_reply { replies << 1 }
+      PumaAfterReply.add_reply { replies << 2 }
+      PumaAfterReply.add_reply(threaded: true) { replies << 3 }
+      PumaAfterReply.add_reply(threaded: true) { replies << 4 }
+      PumaAfterReply.add_reply { raise('test') }
+
+      make_rack_app_request!
+
+      aggregate_failures 'after reply' do
+        expect(replies).to contain_exactly(1, 2, 3, 4)
+        expect(before_replies).to contain_exactly(:before, :before, :before, :before, :before)
+        expect(after_replies).to contain_exactly(:after, :after, :after, :after, :after)
+        expect(on_error_results).to contain_exactly(:on_error)
+        expect(log_error_results).to contain_exactly(:log_error)
+      end
+    end
+  end
 end

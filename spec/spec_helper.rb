@@ -12,7 +12,11 @@ SimpleCov.start
 
 require 'bundler/setup'
 require 'puma_after_reply'
+require 'rack'
+require 'rack/test'
 require 'pry'
+
+require_relative 'support/spec_support'
 
 RSpec.configure do |config|
   Kernel.srand config.seed
@@ -22,4 +26,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
   config.expect_with(:rspec) { |c| c.syntax = :expect }
   Thread.abort_on_exception = true
+
+  config.include Rack::Test::Methods
+  config.include SpecSupport::TestRackApp
 end

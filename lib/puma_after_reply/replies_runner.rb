@@ -60,8 +60,11 @@ module PumaAfterReply::RepliesRunner
       PumaAfterReply::Config.before_reply&.call
       reply.call
     rescue => error
+      # :nocov:
+      # NOTE: it is covered in specs but still showed as "uncovered"
       PumaAfterReply::Config.log_error&.call(error)
       PumaAfterReply::Config.on_error&.call(error)
+      # :nocov:
       raise(error) if PumaAfterReply::Config.fail_on_error
     ensure
       PumaAfterReply::Config.after_reply&.call(reply)
