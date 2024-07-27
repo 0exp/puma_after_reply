@@ -147,7 +147,7 @@ PumaAfterReply.cond_reply(is_puma_request) { your_code }
 ```
 
 ```ruby
-# add threaded reply
+# add threaded reply:
 PumaAfterReply.cond_reply(some_condition, threaded: true) { your_code }
 ```
 
