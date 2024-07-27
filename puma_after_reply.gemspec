@@ -10,10 +10,15 @@ Gem::Specification.new do |spec|
   spec.authors = ['Rustam Ibragimov']
   spec.email = ['iamdaiver@gmail.com']
 
-  spec.summary = 'PumaAfterReply'
-  spec.description = 'PumaAfterReply'
+  spec.summary =
+    "PumaAfterReply: Puma's \"rack.after_reply\" integration for your Rack-applications."
+  spec.description =
+    "PumaAfterReply: Puma's \"rack.after_reply\" integration for your Rack-applications. " \
+    "Provides #call-able reply abstraction and " \
+    "configurable non-threaded/threaded invocation flow " \
+    "before/on_error/after hooks for each added reply."
 
-  spec.homepage = 'https://github.com/0exp/redis_queued_locks'
+  spec.homepage = 'https://github.com/0exp/puma_after_reply'
   spec.license = 'MIT'
 
   spec.metadata['homepage_uri'] = spec.homepage
