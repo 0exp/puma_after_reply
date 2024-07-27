@@ -282,6 +282,8 @@ RSpec.describe 'PumaAfterReply features' do
         expect(on_error_results).to contain_exactly(:on_error)
         expect(log_error_results).to contain_exactly(:log_error)
       end
+
+      expect(PumaAfterReply.size).to eq(0)
     end
   end
 end
