@@ -75,7 +75,9 @@ class PumaAfterReply::ReplyCollector
   # @api private
   # @since 0.1.0
   def threaded__each(&block)
+    # :nocov:
     threaded_replies.each(&block)
+    # :nocov:
   end
 
   # @param block [Block]
@@ -95,7 +97,9 @@ class PumaAfterReply::ReplyCollector
   # @api private
   # @since 0.1.0
   def inline__each(&block)
+    # :nocov:
     inline_replies.each(&block)
+    # :nocov:
   end
 
   # @param block [Block]

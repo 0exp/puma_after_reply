@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+require 'simplecov'
+
+SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+SimpleCov.minimum_coverage(100)
+SimpleCov.enable_coverage(:branch)
+SimpleCov.enable_coverage(:line)
+SimpleCov.primary_coverage(:line)
+SimpleCov.add_filter('spec')
+SimpleCov.start
+
+require 'bundler/setup'
 require 'puma_after_reply'
 require 'pry'
 

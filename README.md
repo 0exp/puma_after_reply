@@ -161,7 +161,7 @@ PumaAfterReply.cond_reply(some_condition, threaded: true) { your_code }
 
 ```ruby
 # the count of the added replies:
-PumaAfterReply.count
+PumaAfterReply.count # or .size
 ```
 
 ```ruby
@@ -173,14 +173,19 @@ PumaAfterReply.threaded_replies # all added threaded replies
 
 ```ruby
 # manual replies running:
-PumaAfterReply.call
+PumaAfterReply.call # or .run
+```
+
+```ruby
+# reset configs to default values:
+PumaAfterReply.config.__reset!
 ```
 
 ---
 
 #### Test environments (and other Rack apps)
 
-<sup>\[[back to top](#table-of-contents)\]</sup>
+<sup>\[[back to top](#usage)\]</sup>
 
 In some cases and Rack applications you can have no `"rack.after_reply"` key in your Rack env
 (request environments in your tests, for example). For this cases you can use `config.run_anyway = true`:

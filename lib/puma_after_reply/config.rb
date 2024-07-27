@@ -81,7 +81,7 @@ module PumaAfterReply::Config
     #
     # @api public
     # @since 0.1.0
-    def reset!
+    def __reset!
       self.fail_on_error = false
       self.log_error = nil
       self.on_error = nil
@@ -93,5 +93,5 @@ module PumaAfterReply::Config
   end
 
   # NOTE: set default configs
-  reset!
+  __reset!
 end

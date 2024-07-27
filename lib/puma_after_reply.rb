@@ -68,6 +68,7 @@ module PumaAfterReply
     def count
       ReplyCollector.current.size
     end
+    alias_method :size, :count
 
     # [DEBUGGING METHOD]
     #
@@ -112,6 +113,7 @@ module PumaAfterReply
     def call
       RepliesRunner.call
     end
+    alias_method :run, :call
 
     # [DEBUGGING METHOD]
     #
