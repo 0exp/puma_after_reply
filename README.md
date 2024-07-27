@@ -55,7 +55,14 @@ require 'puma_after_reply'
 
 <sup>\[[back to top](#table-of-contents)\]</sup>
 
-**Algorithm**:
+- [Algorithm](#algorithm)
+- [Configuration](#configuration)
+- [Adding replies]
+- [Some debugging methods](#some-debigging-methods)
+
+---
+
+#### Algorithm**
 - every Puma worker gets own reply collector;
 - during the Puma's request your logic adds replies to the worker's reply collector;
 - after processing the request Puma's worker returns a response to the browser;
@@ -72,7 +79,9 @@ Each separated reply is launched according to the following flow:
 - **raise_on_error** fail check (`config.fail_on_error`)
 - (ensure): **after_reply** hook (`config.after_reply`);
 
-#### configure:
+---
+
+#### Configuration
 
 ```ruby
 PumaAfterReply.configure do |config|
@@ -92,7 +101,9 @@ end
 Rails.configuration.middleware.use(PumaAfterReply::Middleware)
 ```
 
-#### then use in your code (`add_reply`/`cond_reply`):
+---
+
+#### Adding replies (`add_reply`/`cond_reply`)
 
 - non-threaded way (this reply will be processed sequentially):
 
@@ -111,8 +122,8 @@ PumaAfterReply.add_reply(threaded: true) { your_code }
 - conditional reply adding:
   - `reply(condition, threaded: false, &reply)` (`threaded: false` by default);
   - when condition is `true` - your reply will be pushed to the reply queue;
-  - when condition is `false` - your reply will be invoked immediately;
-  - supports callable `#call`/`Proc` as a condition value;
+  - when condition is `false` - your reply will be processed immediately;
+  - condition can be represented as callable object (`#call`/`Proc`);
 
 ```ruby
 # - with a boolean value:
@@ -125,7 +136,9 @@ is_puma_request = proc { check_that_we_are_inside_a_request }
 PumaAfterReply.cond_reply(is_puma_request) { your_code }
 ```
 
-#### some debugging methods:
+---
+
+#### Some debigging methods
 
 ```ruby
 # the count of the added replies:
