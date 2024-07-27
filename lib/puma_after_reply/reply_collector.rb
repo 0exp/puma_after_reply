@@ -4,8 +4,6 @@
 # @since 0.1.0
 class PumaAfterReply::ReplyCollector
   class << self
-    # Each Puma's worker has it's own PumAafterReply::ReplyCollector instance.
-    #
     # @return [PumaAfterReply::ReplyCollector]
     #
     # @api private
@@ -18,51 +16,83 @@ class PumaAfterReply::ReplyCollector
   # @return [Array<#call|Proc>]
   #
   # @api private
-  # @sicne 0.1.0
-  attr_reader :replies
+  # @since 0.1.0
+  attr_reader :inline_replies
+
+  # @return [ARray<#call|Proc>]
+  #
+  # @api private
+  # @since 0.1.0
+  attr_reader :threaded_replies
 
   # @return [void]
   #
   # @api private
   # @since 0.1.0
   def initialize
-    @replies = []
+    @inline_replies = []
+    @threaded_replies = []
   end
 
   # @param reply [#call,Proc]
+  # @option threaded [Boolean]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def add_reply(reply)
-    replies << reply
+  def add_reply(reply, threaded:)
+    threaded ? threaded_replies << reply : inline_replies << reply
+  end
+
+  # @return [Array<#call,Proc>]
+  #
+  # @api private
+  # @since 0.1.0
+  def replies
+    threaded_replies + inline_replies
   end
 
   # @return [Integer]
   #
   # @api private
-  # @sicne 0.1.0
+  # @since 0.1.0
   def size
-    replies.size
+    inline_replies.size + threaded_replies.size
   end
 
-  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def each(&block)
-    replies.each(&block)
+  def threaded__each(&)
+    threaded_replies.each(&)
   end
 
-  # @param block [Block]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def each_and_flush(&block)
-    each(&block)
+  def threaded__each_and_flush(&)
+    threaded_replies.each(&)
   ensure
-    replies.clear
+    threaded_replies.clear
+  end
+
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def inline__each(&)
+    inline_replies.each(&)
+  end
+
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def inline__each_and_flush(&)
+    inline_replies.each(&)
+  ensure
+    inline_replies.clear
   end
 end

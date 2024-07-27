@@ -4,48 +4,53 @@
 # @since 0.1.0
 module PumaAfterReply::RepliesRunner
   class << self
-    # Call all replies in multi-threaded way with a series of hooks (before reply, on error,
-    # after reply). Thread count is limited by Concurrent::FixedThreadPool and thread_count config.
-    #
-    # @return [void]
-    #
     # @api private
     # @since 0.1.0
     def call
-      reply_executions = Concurrent::Array.new
-      PumaAfterReply::ReplyCollector.current.each_and_flush do |reply|
-        reply_executions << Concurrent::Future.execute({ executor: thread_pool }) do
-          call_reply(reply)
-        end
-      end
+      threaded_executions = execute_threaded
+      execute_inline
       # NOTE:
       #   wait for all replies to be completed (an analogue of Thread#join)
       #   in order to keep busy the current puma worker for the duration of the reply logic
       #   and to prevent any memory bloat;
-      reply_executions.each(&:value)
+      threaded_executions.each(&:value)
     end
 
     private
 
-    # Thread pool that is used for threaded reply invocations limited by the thera_count config.
+    # @return [Concurrent::Array]
     #
+    # @api private
+    # @since 0.1.0
+    def execute_threaded
+      Concurrent::Array.new.tap do |reply_executions|
+        PumaAfterReply::ReplyCollector.current.threaded__each_and_flush do |reply|
+          reply_executions << Concurrent::Future.execute({ executor: thread_pool }) do
+            call_reply(reply)
+          end
+        end
+      end
+    end
+
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def execute_inline
+      PumaAfterReply::ReplyCollector.current.inline__each_and_flush do |reply|
+        call_reply(reply)
+      end
+    end
+
     # @return [Concurrent::FixedThreadPool]
     #
     # @api private
     # @since 0.1.0
     def thread_pool
       Thread.current[:puma_after_reply_runner_thread_pool] ||=
-        Concurrent::FixedThreadPool.new(PumaAfterReply::Config.thread_count)
+        Concurrent::FixedThreadPool.new(PumaAfterReply::Config.thread_pool_size)
     end
 
-    # Invoke the concrete reply. Invocation flow:
-    # => before_reply hook
-    # => reply.call
-    # => (error hook): log_error hook
-    # => (error hook): on_error hook
-    # => (error hook): raise if fail_on_error
-    # => after_reply hook
-    #
     # @param reply [#call,Proc]
     # @return [void]
     #

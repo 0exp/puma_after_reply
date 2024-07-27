@@ -14,13 +14,14 @@ module PumaAfterReply
   class << self
     # Add reply to the reply collector, without any conditions.
     #
+    # @option threaded [Boolean]
     # @param reply [Block]
     # @return [void]
     #
     # @api public
     # @since 0.1.0
-    def add_reply(&reply)
-      ReplyCollector.current.add_reply(reply)
+    def add_reply(threaded: false, &reply)
+      ReplyCollector.current.add_reply(reply, threaded:)
     end
 
     # Add reply to the reply collector condotionally using the boolean factor.
@@ -30,14 +31,15 @@ module PumaAfterReply
     # If a factor is a false value => your reply block will be yielded immediatly.
     #
     # @param factor [Boolean,#call]
+    # @option threaded [Boolean]
     # @param reply [Block]
     # @return [void,Any]
     #
     # @pai public
-    # @since 1.9.0
-    def cond_reply(factor, &reply)
+    # @since 0.1.0
+    def cond_reply(factor, threaded: false, &reply)
       is_addable = factor.respond_to?(:call) ? factor.call : factor
-      is_addable ? add_reply(&reply) : yield
+      is_addable ? add_reply(threaded:, &reply) : yield
     end
 
     # @param block [Block]
@@ -68,8 +70,6 @@ module PumaAfterReply
     end
 
     # [DEBUGGING METHOD]
-    # Return a list of the currently added replies.
-    # This method should be used only for debugging, not for any logic.
     #
     # @return [Array<#call|Proc>]
     #
@@ -80,6 +80,27 @@ module PumaAfterReply
     end
 
     # [DEBUGGING METHOD]
+    #
+    # @return [Array<#call|Proc>]
+    #
+    # @api private
+    # @since 0.1.0
+    def inline_replies
+      ReplyCollector.current.inline_replies
+    end
+
+    # [DEBUGGING METHOD]
+    #
+    # @return [Array<#call|Proc>]
+    #
+    # @api private
+    # @since 0.1.0
+    def threaded_replies
+      ReplyCollector.current.threaded_replies
+    end
+
+    # [DEBUGGING METHOD]
+    #
     # Should not be invoked directly in the business code!
     # Run all currently added replies directly. Imporant: remember that reply collector will
     # be flushed.

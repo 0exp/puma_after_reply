@@ -44,7 +44,7 @@ module PumaAfterReply::Config
     #
     # @api public
     # @since 0.1.0
-    attr_accessor :thread_count
+    attr_accessor :thread_pool_size
 
     # @param configuration [Block]
     # @return [void]
@@ -66,7 +66,8 @@ module PumaAfterReply::Config
       on_error:,
       before_reply:,
       after_reply:,
-      run_anyway:
+      run_anyway:,
+      thread_pool_size:,
     }
     # rubocop:enable Style/EndlessMethod
 
@@ -84,5 +85,5 @@ module PumaAfterReply::Config
   self.before_reply = nil
   self.after_reply = nil
   self.run_anyway = false
-  self.thread_count = 5
+  self.thread_pool_size = 10
 end
