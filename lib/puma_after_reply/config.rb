@@ -76,14 +76,22 @@ module PumaAfterReply::Config
     # @api public
     # @since 0.1.0
     def to_s = to_h.inspect
+
+    # @return [void]
+    #
+    # @api public
+    # @since 0.1.0
+    def reset!
+      self.fail_on_error = false
+      self.log_error = nil
+      self.on_error = nil
+      self.before_reply = nil
+      self.after_reply = nil
+      self.run_anyway = false
+      self.thread_pool_size = 10
+    end
   end
 
-  # NOTE: default configs
-  self.fail_on_error = false
-  self.log_error = nil
-  self.on_error = nil
-  self.before_reply = nil
-  self.after_reply = nil
-  self.run_anyway = false
-  self.thread_pool_size = 10
+  # NOTE: set default configs
+  reset!
 end

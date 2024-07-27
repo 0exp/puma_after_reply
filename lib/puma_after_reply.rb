@@ -112,5 +112,15 @@ module PumaAfterReply
     def call
       RepliesRunner.call
     end
+
+    # [DEBUGGING METHOD]
+    #
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def clear
+      ReplyCollector.current.clear
+    end
   end
 end

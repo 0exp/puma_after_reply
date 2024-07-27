@@ -60,6 +60,15 @@ class PumaAfterReply::ReplyCollector
     inline_replies.size + threaded_replies.size
   end
 
+  # @return [void]
+  #
+  # @api private
+  # @since 0.1.0
+  def clear
+    inline_replies.clear
+    threaded_replies.clear
+  end
+
   # @param block [Block]
   # @return [void]
   #
