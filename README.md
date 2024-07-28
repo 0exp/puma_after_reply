@@ -65,7 +65,9 @@ require 'puma_after_reply'
 #### Algorithm
 
 - every Puma's worker gets own reply collector;
-- during the Puma's request your logic adds replies to the worker's reply collector;
+- during the Puma's request your logic adds replies to the worker's reply collector
+  - using `PumaAfterReply.add_reply` ([doc]((#adding-replies-add_replycond_reply)));
+  - using `PumaAfterReply.cond_reply` ([doc]((#adding-replies-add_replycond_reply)));
 - after processing the request, Puma's worker returns a response to the browser;
 - then Puma's worker launches accumulated replies:
   - threaded replies are launched in separated threads;
