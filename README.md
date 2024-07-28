@@ -177,6 +177,11 @@ PumaAfterReply.call # or .run
 ```
 
 ```ruby
+# clear replies collector:
+PumaAfterReply.clear
+```
+
+```ruby
 # reset configs to default values:
 PumaAfterReply.config.__reset!
 ```
