@@ -13,7 +13,7 @@ abstraction and configurable non-threaded/threaded invocation flow with before/o
   - [Algorithm](#algorithm)
   - [Configuration](#configuration)
   - [Adding replies](#adding-replies-add_replycond_reply)
-  - [Some debugging methods](#some-debigging-methods)
+  - [Some debugging methods](#some-debugging-methods)
   - [Test environments](#test-environments-and-other-rack-apps)
 - [Contributing](#contributing)
 - [License](#license)
@@ -57,7 +57,7 @@ require 'puma_after_reply'
 - [Algorithm](#algorithm)
 - [Configuration](#configuration)
 - [Adding replies](#adding-replies-add_replycond_reply)
-- [Some debugging methods](#some-debigging-methods)
+- [Some debugging methods](#some-debugging-methods)
 - [Test environments](#test-environments-and-other-rack-apps)
 
 ---
@@ -155,7 +155,7 @@ PumaAfterReply.cond_reply(some_condition, threaded: true) { your_code }
 
 ---
 
-#### Some debigging methods
+#### Some debugging methods
 
 <sup>\[[back to top](#usage)\]</sup>
 
