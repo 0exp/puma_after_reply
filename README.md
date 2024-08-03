@@ -83,6 +83,9 @@ Each separated reply is launched according to the following invocation flow:
   - **raise_on_error** fail check (`config.fail_on_error`)
 - (ensure): **after_reply** hook (`config.after_reply`);
 
+**Remember:** if you add a reply outside of the Puma's/Rack's request context your reply will never be processed and flushed
+(that can lead to the memory leak/memory bloat).
+
 ---
 
 #### Configuration
